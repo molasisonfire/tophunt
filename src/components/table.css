@@ -1,0 +1,37 @@
+.user{
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: auto;
+    display:block;
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+    height: auto;  
+  }
+  
+.user  td,
+.user  th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+.user tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+.user tr:hover {
+    background-color: #ddd;
+  }
+  
+.user th, tfoot td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #5b4caf;
+    color: white;
+  }
+
+.user tbody {
+    height: 300px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}

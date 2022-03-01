@@ -1,0 +1,13 @@
+.tile img {
+    width: 40px;
+}
+
+.number{
+    cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }

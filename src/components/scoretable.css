@@ -1,0 +1,31 @@
+.score {
+  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: auto;
+  display:block;
+  overflow-y: auto;    /* Trigger vertical scroll    */
+  overflow-x: hidden;  /* Hide the horizontal scroll */
+  height: auto;  
+  }
+  
+  .score td,
+  .score th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .score tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .score tr:hover {
+    background-color: #ddd;
+  }
+  
+  .score th, tfoot td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #5b4caf;
+    color: white;
+  }
