@@ -4,10 +4,10 @@ import usernameImg from "./image/user-icon.png";
 import passwordImg from "./image/password-icon.png";
 
 
-function Login  ({changePage,changePageGame}) {
+function Login  ({changePage,changePageGame,name,pass}) {
     const [ username , setUsername] = useState("");
     const [ password , setPassword] = useState("");
-
+    
 
     const {authenticate } = useContext(AccountContext);
 
@@ -17,6 +17,8 @@ function Login  ({changePage,changePageGame}) {
         authenticate(username,password)
         .then(data => {
             console.log("Logged in",data);
+            name(username);
+            pass(password);
             changePageGame(true);
         })
         .catch(err => {

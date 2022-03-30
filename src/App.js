@@ -1,50 +1,69 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './App.css';
 import Signup from './Signup';
 import Login from './Login';
 import {Account} from "./Account";
-import Status from "./Status";
 import profile from "./image/mountain.png";
-import Sound from "./components/gameSound.mp3";
-import {Howl , Howler} from "howler";
 import Chessboard from "./components/Chessboard";
-import  {UserTable}  from "./components/UserTable";
+import  UserTable  from "./components/UserTable";
 import {ScoreTable} from "./components/ScoreTable";
-import PlayerSound from "./components/PlayerSound";
+import axios from "axios";
 
-const App = () => {
+function App () {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const result = await axios("https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/allusers");
+      setData(result.data['message']);
+    })();
+  }, []);
+
+  const [moves, setMoves] = useState([]);
+  useEffect(() => {
+ (async () => {
+     const result = await axios("https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/allusersplays");
+     setMoves(result.data['message']);
+   })();
+ }, []);
+
+
   const [ signPressed , setSignPressed] = useState(1);
-  fetch("https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/allusers")
-  .then(response => {
-    console.log(response)
-      // handle the response
-  })
-  .catch(error => {
-      // handle the error
-  });
+
+  const [userName, setUserName] = useState('')
+  const [userPassword, setUserPassword] = useState('')
+
   const changePageFalse = (value) => {
-    //event.preventDefault();
+
     setSignPressed(2);
   };
 
-  const changePageTrue = (value) => {
-    //event.preventDefault();
+  const changePageTrue = () => {
+
     setSignPressed(1);
   };
 
-  const changePageGame = (value) => {
+  const changePageGame = () => {
     setSignPressed(0);
   }
+
+  const nameUser = (value) => {
+    setUserName(value)
+  }
+
+  const passUser = (value) => {
+    setUserPassword(value)
+  }
+
 
   if(signPressed == 0){
     return (
       <div className="main-board">
       <div className="sub-main-board">
         <div className="line">
-          <Chessboard/>
+          <Chessboard name={userName} pass={userPassword} moves={moves}/>
         </div>
           <div className="line">
-            <UserTable/>
+            <UserTable  dados={data} />
             <ScoreTable/>
           </div>
       </div>
@@ -66,7 +85,7 @@ const App = () => {
              <img src={profile} alt="profile" className="profile"/>
            </div>
          </div>
-        <Login changePage={(changePageFalse)} changePageGame={(changePageGame)}/>
+        <Login changePage={(changePageFalse)} changePageGame={(changePageGame)} name={  (nameUser)} pass={ (passUser)}/>
        </div>
      </div>
     </div>

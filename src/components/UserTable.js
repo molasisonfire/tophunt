@@ -1,12 +1,28 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTable } from 'react-table'
 import DATA from './DATA.json'
 import { COLUMNS } from './Columns'
 import './table.css'
+import {getMemberInfo} from './UserDataGet.js';
+import { getElementError } from '@testing-library/react'
 
-export const UserTable = () => {
+function addRank(dados){
+  var index = 1;
+  while(index< dados.length+1){
+    dados[index-1].rank=index
+    index++;
+  }
+}
+
+export default function UserTable ({dados})  {
+  dados.sort((a,b) => (a.points < b.points) ? 1 : ((b.points < a.points) ? -1 : 0))
+  addRank(dados)
+
   const columns = useMemo(() => COLUMNS, [])
-  const data = useMemo(() => DATA, [])
+  const data = useMemo(() => dados, [])
+
+
+
 
   const {
     getTableProps,

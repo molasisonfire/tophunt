@@ -4,8 +4,7 @@ export const COLUMNS = [
   {
     Header: 'Rank',
     Footer: 'Rank',
-    accessor: 'Rank',
-    disableFilters: true,
+    accessor: 'rank',
     sticky: 'left'
   },
   {
@@ -19,10 +18,5 @@ export const COLUMNS = [
     Footer: 'Points',
     accessor: 'points',
     sticky: 'left'
-  },
-  {
-    Header: 'Victories',
-    Footer: 'Victories',
-    accessor: 'victories'
   }
 ]

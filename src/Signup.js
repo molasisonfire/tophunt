@@ -4,12 +4,34 @@ import usernameImg from "./image/user-icon.png";
 import passwordImg from "./image/password-icon.png";
 import pixImg from "./image/pix-icon.png";
 import emailImg from "./image/email-icon.png";
+import axios from "axios";
+import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
+
+
+
 
 function Signup ({changePage}){
     const [ username , setUsername] = useState("");
     const [ password , setPassword] = useState("");
     const [ pixkey , setPixkey] = useState("");
     const [ email , setEmail] = useState("");
+
+    function createMoves(){
+        const headers = { 
+            'Cache-Control': 'no-cache'
+          };
+          const body = '{ "username" :"'+ username+'", "password" :"' + password +'", "plays" :'+ 4 +'}'; 
+  
+  
+          axios.post('https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/moveplay', {body})
+          .then(function (response) {
+
+          })
+          .catch(function (error) {
+            console.log("damn " + error);
+          });
+    }
+
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -18,13 +40,33 @@ function Signup ({changePage}){
         UserPool.signUp(username,password,[],null,(err,data)=> {
             if(err){
                 console.error(err);
-                console.log(data);
+
                 alert("falha no cadastro: usuario ou senha invalido. Usuario pode ja ser existente. Senha deve conter 8 ou mais caracteres, possuir caractere especial e numero/letra, sendo uma letra maiuscula.")
 
             }else{
-                console.log(data);
+
+
                 alert("Cadastro realizado com sucesso")
-                changePage(true)
+                
+
+                const headers = { 
+                    'Cache-Control': 'no-cache'
+                  };
+                  const body = '{ "username" :"'+ username+'", "password" :"' + password +'", "pix_key" :"'+ pixkey +'", "email" : "'+ email+'"}'; 
+          
+          
+                  axios.post('https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/register', {body})
+                  .then(function (response) {
+                    console.log(response);
+                  })
+                  .catch(function (error) {
+                    console.log("damn " + error);
+                  });
+                createMoves();
+                
+                changePage(true);
+
+                window.location.reload();
             }
         })
     };

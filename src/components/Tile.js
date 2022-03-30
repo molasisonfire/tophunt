@@ -9,12 +9,18 @@ import GoldDiag1 from "./../image/GoldenDiag1.PNG";
 import GoldDiag2 from "./../image/GoldenDiag2.PNG";
 import GoldDown from "./../image/GoldenDown.PNG";
 import numberIcon from "./../image/number.PNG";
-
+import axios from "axios";
 
 var chance = 4;
 
 
-export default function Tile({x,y,changePage,numbers,show,sum}){
+function updateChances(plays){
+  chance = plays;
+}
+
+export default function Tile({x,y,changePage,numbers,show,sum,name,pass,plays}){
+
+  //updateChances(plays);
   const [ pos1Pressed , setPos1Pressed] = useState(0);
   const [ pos2Pressed , setPos2Pressed] = useState(0);
   const [ pos3Pressed , setPos3Pressed] = useState(0);
@@ -25,7 +31,22 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
   const [ pos8Pressed , setPos8Pressed] = useState(0);
   const [ pos9Pressed , setPos9Pressed] = useState(0);
 
+  function reduceMove(){
+        const headers = { 
+          'Cache-Control': 'no-cache'
+        };
+        const body = '{ "username" :"'+ name+'", "password" :"' + pass +'", "plays" :'+ chance +'}'; 
 
+
+
+        axios.post('https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/moveplay', {body})
+        .then(function (response) {
+
+        })
+        .catch(function (error) {
+          console.log("damn " + error);
+        });
+  }
   
 
     const imageClick0 = () => {
@@ -33,6 +54,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos1Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -44,7 +66,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos2Pressed(1);
         chance = chance - 1;
-
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -57,6 +79,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos3Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance === 0 ){
         alert("selecione uma das flechas!")
@@ -68,6 +91,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos4Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -78,6 +102,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos5Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -88,6 +113,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos6Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -98,6 +124,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos7Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -109,6 +136,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos8Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -119,6 +147,7 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
 
         setPos9Pressed(1);
         chance = chance - 1;
+        reduceMove();
       }
       if(chance == 0 ){
         alert("selecione uma das flechas!")
@@ -140,8 +169,27 @@ export default function Tile({x,y,changePage,numbers,show,sum}){
         if(x == 0 && y == 3) soma = numbers[2]+numbers[5]+numbers[8];
         
         sum(soma);
+
+        const headers = { 
+          'Cache-Control': 'no-cache'
+        };
+        const body = '{ "username" :"'+ name+'", "password" :"' + pass +'", "soma" :'+ soma +'}'; 
+
+
+
+        axios.post('https://cnnijjoiv0.execute-api.sa-east-1.amazonaws.com/Production/addpoints', {body})
+        .then(function (response) {
+
+        })
+        .catch(function (error) {
+          console.log("damn " + error);
+        });
+
         alert("seu resultado foi : " + soma+ "! Consulte a tabela ao lado para checar seus pontos.");
+
+       
         changePage();
+
       }else{
         alert("Selecione as esferas verdes.");
       }

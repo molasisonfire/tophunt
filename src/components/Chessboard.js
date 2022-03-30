@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tile from "./Tile";
+import axios from "axios";
+
 
 const horizontalAxis = ["l1","l2","l3","l4","l5"];
 const verticalAxis = ["c1","c2","c3","c4","c5"];
@@ -19,9 +21,19 @@ function shuffleArray() {
 }
 
 
-export default function Chessboard(){
+export default function Chessboard({name,pass,moves}){
     let board = [];
-    
+    var movements = 0;
+    var index = 0;
+
+    while(index<moves.length){
+        if(moves[index]['username'] === name && moves[index]['password'] === pass){
+            movements=moves[index]['plays'];
+        }
+        index++;
+    }
+
+    //GetMoves(name,pass);
     const [showPieces, setShowpieces] = useState(0);
     const [soma, setSoma] = useState(0);    
 
@@ -39,17 +51,17 @@ export default function Chessboard(){
         
         for(let j = 0 ; j<verticalAxis.length ; j++){
             if(i == 4) continue;
-            if(showPieces==0){
-                board.push(<Tile x={i} y={j}  changePage={(changePageTrue)} numbers={numbers} show={false} sum={(declareSoma)}/>)
+            if(showPieces==0 && movements>0){
+                board.push(<Tile x={i} y={j}  changePage={(changePageTrue)} numbers={numbers} show={false} sum={(declareSoma)} name={(name)} pass={(pass)} plays={movements}/>)
             }else{
-                board.push(<Tile x={i} y={j}  changePage={(changePageTrue)} numbers={numbers} show={true} sum={(declareSoma)}/>)
+                board.push(<Tile x={i} y={j}  changePage={(changePageTrue)} numbers={numbers} show={true} sum={(declareSoma)} name={(name)} pass={(pass)} plays={movements}/>)
             }
         }
     }
     return (<div>
         <div className="wrapper"></div>
         <div id="board">{board}</div>
-        { showPieces==0 ?
+        { showPieces==0 && movements>0?
         <div>
         <div className="wrapper"></div>
         <h> Libere 4 numeros.  </h>
@@ -62,12 +74,12 @@ export default function Chessboard(){
         :
         <div>
         <div className="wrapper"></div>
-        <h> Veja a pontuação ao lado para soma {soma}</h>
+        {movements>0? <h> Veja a pontuação ao lado para soma {soma}</h> : <></>}
         <div className="wrapper"></div>
         <h> Rank#1 receberá pix de 100r$</h>
         <p></p>
         <div className="wrapper"></div>
-        <h> Novo jogo disponivel 12h!</h>
+        <h> Novo jogo disponivel 9h!</h>
         </div>}
 
         </div>)
